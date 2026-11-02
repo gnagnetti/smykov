@@ -160,7 +160,9 @@ export const FileUploadModal: React.FC<FileUploadModalProps> = ({
       const merged = mergeOrderAndSellOut(parsedOrders, parsedPhotos, parsedSellOuts);
 
       const totalSold = parsedSellOuts.reduce((a, b) => a + (b.qtySold || 1), 0);
-      const label = `Dati personalizzati caricati (${merged.length} stili · ${totalSold} capi venduti)`;
+      const sourceFiles = [ordersFile, photosFile, selloutFile].filter(Boolean).map((file) => file.name);
+      const savedTime = new Date().toLocaleString("it-IT");
+      const label = `Salvato in memoria · ${sourceFiles.join(", ")} · ${savedTime} (${merged.length} stili · ${totalSold} capi venduti)`;
       onDataParsed(merged, parsedOrders, parsedInfo, label);
       onClose();
     } catch (err: any) {

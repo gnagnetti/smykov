@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import {
   BoutiqueInfo,
   FilterState,
@@ -30,14 +30,35 @@ import { DataEngineerRow } from "./utils/excelParser";
 import { Upload, Cpu, Sparkles } from "lucide-react";
 
 export default function App() {
-  const [boutiqueInfo, setBoutiqueInfo] = useState<BoutiqueInfo>(INITIAL_BOUTIQUE_INFO);
-  // Starts completely empty if no file has been uploaded
-  const [orders, setOrders] = useState<OrderItem[]>([]);
-  const [products, setProducts] = useState<MergedProduct[]>([]);
+  const savedWorkspace = useMemo(() => {
+    try {
+      return JSON.parse(localStorage.getItem("smykova-uploaded-workspace") || "null");
+    } catch {
+      return null;
+    }
+  }, []);
+  const [boutiqueInfo, setBoutiqueInfo] = useState<BoutiqueInfo>(savedWorkspace?.boutiqueInfo || INITIAL_BOUTIQUE_INFO);
+  const [orders, setOrders] = useState<OrderItem[]>(savedWorkspace?.orders || []);
+  const [products, setProducts] = useState<MergedProduct[]>(savedWorkspace?.products || []);
   const [dataSourceLabel, setDataSourceLabel] = useState(
-    "Nessun file caricato · Please upload files",
+    savedWorkspace?.dataSourceLabel || "Nessun file caricato · Please upload files",
   );
   const [isVerificationOpen, setIsVerificationOpen] = useState(false);
+
+  useEffect(() => {
+    if (!products.length && !orders.length) return;
+    try {
+      localStorage.setItem("smykova-uploaded-workspace", JSON.stringify({
+        boutiqueInfo,
+        orders,
+        products,
+        dataSourceLabel,
+        savedAt: new Date().toISOString(),
+      }));
+    } catch (error) {
+      console.error("Unable to save uploaded workspace", error);
+    }
+  }, [boutiqueInfo, orders, products, dataSourceLabel]);
 
   const [viewMode, setViewMode] = useState<ViewMode>("lookbook");
   const [selectedProduct, setSelectedProduct] = useState<MergedProduct | null>(null);
@@ -138,6 +159,7 @@ export default function App() {
   }, [products, filters]);
 
   const handleResetData = () => {
+    localStorage.removeItem("smykova-uploaded-workspace");
     setProducts([]);
     setOrders([]);
     setBoutiqueInfo(INITIAL_BOUTIQUE_INFO);
