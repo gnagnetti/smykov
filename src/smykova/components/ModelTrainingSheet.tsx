@@ -418,6 +418,9 @@ export const ModelTrainingSheet: React.FC<ModelTrainingSheetProps> = ({
                 alt={trainingData.modelName}
                 className="max-h-[380px] w-auto object-contain mx-auto"
               />
+              <div className="border-t border-stone-100 px-3 py-2 text-center text-[11px] text-stone-600">
+                Sell-in / Sell-out: {mainCheck.ordered} / {mainCheck.sold} capi · {mainCheck.ordered ? ((mainCheck.sold / mainCheck.ordered) * 100).toFixed(1) : "0.0"}%
+              </div>
             </div>
           </div>
 
@@ -457,6 +460,9 @@ export const ModelTrainingSheet: React.FC<ModelTrainingSheetProps> = ({
                     </div>
                     <div className="mt-2">
                       <SizeCards check={ck} compact />
+                      <p className="mt-2 text-center text-[10px] text-stone-500">
+                        Sell-in / Sell-out: {ck.ordered} / {ck.sold} · {ck.ordered ? ((ck.sold / ck.ordered) * 100).toFixed(1) : "0.0"}%
+                      </p>
                     </div>
                   </div>
                 );
@@ -476,16 +482,20 @@ export const ModelTrainingSheet: React.FC<ModelTrainingSheetProps> = ({
                     <div className="text-sm leading-relaxed text-stone-800">
                       {look.parts.map((part, j) =>
                         part.type === "img" ? (
-                          <img
-                            key={j}
-                            src={part.value}
-                            alt=""
-                            loading="lazy"
-                            onError={(e) => {
-                              e.currentTarget.style.display = "none";
-                            }}
-                            className="inline-block align-middle m-1 h-28 w-24 rounded border border-stone-200 bg-white object-contain"
-                          />
+                          <span key={j} className="m-1 inline-flex flex-col align-middle rounded border border-stone-200 bg-white p-1">
+                            <img
+                              src={part.value}
+                              alt=""
+                              loading="lazy"
+                              onError={(e) => {
+                                e.currentTarget.style.display = "none";
+                              }}
+                              className="h-28 w-24 object-contain"
+                            />
+                            <span className="mt-1 text-center text-[9px] text-stone-500">
+                              Sell-in / Sell-out {mainCheck.ordered}/{mainCheck.sold} · {mainCheck.ordered ? ((mainCheck.sold / mainCheck.ordered) * 100).toFixed(1) : "0.0"}%
+                            </span>
+                          </span>
                         ) : (
                           <span key={j}>{part.value}</span>
                         ),

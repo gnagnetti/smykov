@@ -1,6 +1,7 @@
 // @ts-nocheck -- imported code, written for a looser TypeScript config
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { MergedProduct, OrderItem } from "../types";
+import { findCollectionRow, loadCollectionCsv } from "../data/collectionCsv";
 import { X, CheckCircle2, AlertCircle, ShoppingBag, Euro, Sparkles } from "lucide-react";
 import { ModelTrainingSheet } from "./ModelTrainingSheet";
 
@@ -18,6 +19,14 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
   onClose,
 }) => {
   const [imgError, setImgError] = useState(false);
+  const [modelDescription, setModelDescription] = useState("");
+
+  useEffect(() => {
+    if (!product) return;
+    loadCollectionCsv().then((rows) => {
+      setModelDescription(findCollectionRow(rows, product.styleName)?.description || "");
+    });
+  }, [product?.styleName]);
 
   if (!product) return null;
 
@@ -141,6 +150,17 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                 </span>
               </div>
             </div>
+
+            {modelDescription && (
+              <div className="mt-4 rounded-lg border border-stone-200 bg-white p-4">
+                <h3 className="text-xs font-bold uppercase tracking-wider text-stone-500">
+                  Descrizione del modello
+                </h3>
+                <p className="mt-2 text-sm leading-relaxed text-stone-700 whitespace-pre-line">
+                  {modelDescription}
+                </p>
+              </div>
+            )}
 
             {/* Sizes Breakdown Grid */}
             <div className="mt-5">
