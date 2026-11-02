@@ -113,8 +113,13 @@ export function loadCollectionCsv(): Promise<CollectionRow[]> {
   if (!cache) {
     cache = fetch(collectionAsset.url)
       .then((r) => r.text())
-      .then((text) => {
+      .then(async (text) => {
         const rows = parseCsvString(text.replace(/^\uFEFF/, ""), ";");
+        const stylingText = await fetch("/assets/226FWCollectionMultilingua.csv").then((r) => r.text());
+        const stylingRows = parseCsvString(stylingText.replace(/^\uFEFF/, ""), "\t");
+        const stylingByModel = new Map(
+          stylingRows.slice(1).filter((r) => r && r[1]).map((r) => [norm(String(r[1])), String(r[5] || "")]),
+        );
         return rows
           .slice(1)
           .filter((r) => r && r[1])
@@ -123,7 +128,7 @@ export function loadCollectionCsv(): Promise<CollectionRow[]> {
             name: String(r[1] || "").trim(),
             description: String(r[2] || "").trim(),
             colors: parseColors(String(r[3] || "")),
-            styling: String(r[5] || "")
+            styling: String(stylingByModel.get(norm(String(r[1]))) || r[5] || "")
               .split(/\s*\|\s*/)
               .map((s) => s.trim())
               .filter(Boolean),
