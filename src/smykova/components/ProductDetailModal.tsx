@@ -243,6 +243,17 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
           products={products}
           orders={orders}
         />
+
+        <div className="mt-8 flex justify-end border-t border-stone-200 pt-5">
+          <button
+            type="button"
+            onClick={onClose}
+            className="inline-flex items-center gap-2 rounded-lg bg-stone-900 px-4 py-2.5 text-sm font-medium text-white hover:bg-stone-700 transition"
+          >
+            <X className="h-4 w-4" />
+            Chiudi finestra
+          </button>
+        </div>
       </div>
     </div>
   );
