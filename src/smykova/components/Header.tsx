@@ -32,7 +32,7 @@ export const Header: React.FC<HeaderProps> = ({
             </h1>
             <span className="text-stone-300 font-light text-xl">|</span>
             <span className="text-xs uppercase tracking-widest text-amber-900/80 font-medium">
-              Sell-Out & Merchandising Intelligence
+              Аналитика продаж и мерчандайзинга
             </span>
           </div>
 
@@ -46,7 +46,7 @@ export const Header: React.FC<HeaderProps> = ({
               }
             >
               <span className="text-[10px] uppercase tracking-wider text-amber-900 font-bold">
-                Cliente:
+                Клиент:
               </span>
               <span>{boutiqueInfo.name || boutiqueInfo.location}</span>
             </span>
@@ -80,7 +80,7 @@ export const Header: React.FC<HeaderProps> = ({
               ·
             </span>
             <span className="inline-flex items-center gap-1 font-mono text-[11px] text-amber-950 bg-amber-50/80 border border-amber-200/80 px-2 py-0.5 rounded">
-              Formula: (Venduti ÷ Ordinati) × 100
+              Формула: (Продано ÷ Заказано) × 100
             </span>
           </div>
         </div>
@@ -96,43 +96,43 @@ export const Header: React.FC<HeaderProps> = ({
           <button
             onClick={onOpenUpload}
             className="inline-flex items-center gap-1.5 rounded border border-stone-300 bg-white px-3 py-1.5 text-xs font-medium text-stone-800 shadow-sm transition hover:bg-stone-50 hover:border-stone-400 active:scale-95"
-            title="Import Excel o CSV files (Ordini, Foto, Sell-Out)"
+            title="Загрузить файлы Excel или CSV (заказы, фотографии, продажи)"
           >
             <Upload className="h-3.5 w-3.5 text-stone-600" />
-            <span>Upload Excel / CSV</span>
+            <span>Загрузить Excel / CSV</span>
           </button>
 
           <button
             onClick={() => exportConsolidatedOrdersCSV(orders)}
             className="inline-flex items-center gap-1.5 rounded border border-stone-300 bg-white px-3 py-1.5 text-xs font-medium text-stone-700 shadow-sm transition hover:bg-stone-50 hover:text-stone-900"
-            title="Export consolidated multi-PO orders CSV"
+            title="Экспортировать сводный CSV заказов по нескольким PO"
           >
             <FileSpreadsheet className="h-3.5 w-3.5 text-stone-500" />
-            <span className="hidden sm:inline">Orders CSV</span>
+            <span className="hidden sm:inline">Заказы CSV</span>
           </button>
 
           <button
             onClick={() => printReportToPdf(products, boutiqueInfo)}
             className="inline-flex items-center gap-1.5 rounded border border-stone-300 bg-white px-3 py-1.5 text-xs font-medium text-stone-700 shadow-sm transition hover:bg-stone-50 hover:text-stone-900"
-            title="Stampa o Salva Report in PDF con immagini"
+            title="Распечатать или сохранить отчет в PDF с фотографиями"
           >
             <Printer className="h-3.5 w-3.5 text-stone-600" />
-            <span>Print PDF</span>
+            <span>Печать PDF</span>
           </button>
 
           <button
             onClick={onOpenConverter}
             className="inline-flex items-center gap-1.5 rounded border border-stone-300 bg-white px-3 py-1.5 text-xs font-medium text-stone-700 shadow-sm transition hover:bg-stone-50 hover:text-stone-900"
-            title="Convertitore Data Engineer (Python Script Pipeline)"
+            title="Конвертер данных (сценарий Python)"
           >
             <Cpu className="h-3.5 w-3.5 text-amber-800" />
-            <span>Data Engineer Converter</span>
+            <span>Конвертер данных</span>
           </button>
 
           <button
             onClick={onResetData}
             className="inline-flex items-center p-1.5 rounded border border-stone-200 text-stone-400 hover:text-stone-700 hover:border-stone-300 transition"
-            title="Reset to default boutique dataset"
+            title="Сбросить данные бутика"
           >
             <RefreshCw className="h-3.5 w-3.5" />
           </button>

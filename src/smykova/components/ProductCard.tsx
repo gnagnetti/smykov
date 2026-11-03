@@ -59,7 +59,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onSelect }) =
         <div className="absolute inset-0 flex items-center justify-center bg-stone-900/30 opacity-0 backdrop-blur-[2px] transition-opacity duration-300 group-hover:opacity-100">
           <span className="inline-flex items-center gap-1.5 rounded bg-white px-3 py-1.5 text-xs font-medium text-stone-900 shadow">
             <Eye className="h-3.5 w-3.5" />
-            Inspect Style
+            Открыть карточку
           </span>
         </div>
       </div>
@@ -86,8 +86,8 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onSelect }) =
         <div className="mt-3">
           <div className="flex justify-between text-xs font-sans-clean">
             <span className="text-stone-600 font-medium">
-              Venduti: <strong className="text-stone-900">{product.unitsSold}</strong> di{" "}
-              {product.unitsOrdered} pcs
+              Продано: <strong className="text-stone-900">{product.unitsSold}</strong> из{" "}
+              {product.unitsOrdered} шт.
             </span>
             <span className="font-semibold text-stone-800">{product.sellOutPct.toFixed(1)}%</span>
           </div>
@@ -101,7 +101,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onSelect }) =
           </div>
           <div className="mt-1 flex items-center justify-between text-[10px] text-stone-400 font-mono">
             <span>
-              ({product.unitsSold} / {product.unitsOrdered}) × 100
+              (продано {product.unitsSold} / заказано {product.unitsOrdered}) × 100
             </span>
             <span className="font-sans-clean">Rimanenza: {product.stockRemaining} pcs</span>
           </div>
@@ -110,19 +110,19 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onSelect }) =
         {/* Key Commercial Metrics */}
         <div className="mt-3 grid grid-cols-2 gap-2 border-t border-stone-100 pt-3 text-xs">
           <div>
-            <span className="block text-stone-400 text-[11px]">Retail / Whs</span>
+            <span className="block text-stone-400 text-[11px]">Розница / опт</span>
             <span className="font-medium text-stone-800">
               €{product.suggRetailEur}{" "}
               <span className="text-stone-400 font-normal">/ €{product.wholesaleEur}</span>
             </span>
           </div>
           <div className="text-right">
-            <span className="block text-stone-400 text-[11px]">Stock Left</span>
+            <span className="block text-stone-400 text-[11px]">Остаток</span>
             <span className="font-medium text-stone-800">
               {product.stockRemaining === 0 ? (
                 <span className="text-rose-700 font-semibold">0 pcs</span>
               ) : (
-                `${product.stockRemaining} pcs`
+                `${product.stockRemaining} шт.`
               )}
             </span>
           </div>

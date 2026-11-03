@@ -40,7 +40,7 @@ export default function App() {
   const [orders, setOrders] = useState<OrderItem[]>(savedWorkspace?.orders || []);
   const [products, setProducts] = useState<MergedProduct[]>(savedWorkspace?.products || []);
   const [dataSourceLabel, setDataSourceLabel] = useState(
-    savedWorkspace?.dataSourceLabel || "Nessun file caricato · Please upload files",
+    savedWorkspace?.dataSourceLabel || "Файлы не загружены · Загрузите файлы",
   );
   useEffect(() => {
     if (!products.length && !orders.length) return;
@@ -161,7 +161,7 @@ export default function App() {
     setProducts([]);
     setOrders([]);
     setBoutiqueInfo(INITIAL_BOUTIQUE_INFO);
-    setDataSourceLabel("Nessun dato caricato · Please upload files");
+    setDataSourceLabel("Данные не загружены · Загрузите файлы");
     setFilters({
       search: "",
       silhouette: "all",
@@ -219,7 +219,7 @@ export default function App() {
       }
 
       const totalUnits = sellOutItems.reduce((acc, it) => acc + (it.qtySold || 0), 0);
-      setDataSourceLabel(`File Convertito (${rows.length} righe · ${totalUnits} capi venduti)`);
+      setDataSourceLabel(`Файл обработан (${rows.length} строк · продано ${totalUnits} ед.)`);
     } catch (err) {
       console.error("Failed to apply converted data:", err);
     }
@@ -234,7 +234,7 @@ export default function App() {
       setOrders(INITIAL_ORDERS);
       setProducts(merged);
       setBoutiqueInfo(INITIAL_BOUTIQUE_INFO);
-      setDataSourceLabel("Dataset Verificato (418 Capi Venduti)");
+      setDataSourceLabel("Проверенный набор данных (продано 418 ед.)");
     } catch (err) {
       console.error("Failed to load sample data:", err);
     }
@@ -271,17 +271,16 @@ export default function App() {
             </div>
 
             <h2 className="font-serif-luxury text-3xl font-semibold text-stone-900 tracking-tight">
-              Please upload files
+              Загрузите файлы
             </h2>
 
             <p className="font-mono text-xs text-stone-400 mt-1 uppercase tracking-wider">
-              Please upldad files
+              ПОЖАЛУЙСТА, ЗАГРУЗИТЕ ФАЙЛЫ
             </p>
 
             <p className="mt-3 text-sm text-stone-600 max-w-md mx-auto leading-relaxed font-sans-clean">
-              Nessun file caricato al momento. Per visualizzare le metriche di sell-out, i grafici
-              di vendita e le schede di formazione virtuale dei modelli, carica i tuoi file di
-              vendita o esegui il convertitore Excel.
+              Пока файлы не загружены. Чтобы просматривать показатели продаж, графики и обучающие
+              карточки моделей, загрузите данные о продажах или запустите конвертер Excel.
             </p>
 
             {/* Quick Action Grid */}
@@ -292,10 +291,10 @@ export default function App() {
               >
                 <div className="flex items-center gap-2 text-stone-900 font-semibold text-sm group-hover:text-amber-900">
                   <Upload className="h-4 w-4 text-amber-800 shrink-0" />
-                  <span>1. Carica File Ordini & Sell-Out</span>
+                  <span>1. Загрузить заказы и продажи</span>
                 </div>
                 <p className="mt-1 text-xs text-stone-500">
-                  Importa file Excel (.xlsx) o CSV (Ordini JOOR, Foto catalogo, Sell-Out)
+                  Импортируйте Excel (.xlsx) или CSV (заказы JOOR, каталог фотографий, продажи)
                 </p>
               </button>
 
@@ -305,22 +304,22 @@ export default function App() {
               >
                 <div className="flex items-center gap-2 text-stone-900 font-semibold text-sm group-hover:text-amber-900">
                   <Cpu className="h-4 w-4 text-amber-800 shrink-0" />
-                  <span>2. Data Engineer Converter</span>
+                  <span>2. Конвертер данных</span>
                 </div>
                 <p className="mt-1 text-xs text-stone-500">
-                  Converti l'Excel 1C in export_ordinato.csv con il parser Python Colab
+                  Преобразуйте Excel 1C в export_ordinato.csv с помощью Python-парсера Colab
                 </p>
               </button>
             </div>
 
             <div className="mt-7 pt-5 border-t border-stone-100 flex flex-col sm:flex-row items-center justify-center gap-2 text-xs">
-              <span className="text-stone-400">oppure avvia rapidamente con dati verificati:</span>
+              <span className="text-stone-400">или загрузите проверенный набор данных:</span>
               <button
                 onClick={handleLoadSampleData}
                 className="inline-flex items-center gap-1 font-semibold text-amber-900 hover:text-amber-950 underline cursor-pointer"
               >
                 <Sparkles className="h-3.5 w-3.5" />
-                <span>Carica Dataset Verificato Boutique Nevskiy (418 Capi)</span>
+                <span>Загрузить проверенные данные бутика «Невский» (418 ед.)</span>
               </button>
             </div>
           </div>

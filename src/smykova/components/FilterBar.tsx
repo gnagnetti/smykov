@@ -46,7 +46,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
             }`}
           >
             <LayoutGrid className="h-3.5 w-3.5" />
-            <span>Lookbook Gallery</span>
+            <span>Галерея моделей</span>
           </button>
 
           <button
@@ -58,7 +58,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
             }`}
           >
             <TableIcon className="h-3.5 w-3.5" />
-            <span>Master Table</span>
+            <span>Таблица</span>
           </button>
 
           <button
@@ -70,7 +70,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
             }`}
           >
             <BarChart3 className="h-3.5 w-3.5" />
-            <span>Silhouettes</span>
+            <span>Категории</span>
           </button>
 
           <button
@@ -82,7 +82,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
             }`}
           >
             <Ruler className="h-3.5 w-3.5" />
-            <span>Size Curve</span>
+            <span>Размерная сетка</span>
           </button>
 
           <button
@@ -94,7 +94,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
             }`}
           >
             <PackageCheck className="h-3.5 w-3.5" />
-            <span>Linesheets</span>
+            <span>Заказы</span>
           </button>
         </div>
 
@@ -105,7 +105,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
             type="text"
             value={filters.search}
             onChange={(e) => onFilterChange({ ...filters, search: e.target.value })}
-            placeholder="Search style (e.g. Faggi, Girevole), color, fabrication..."
+            placeholder="Поиск по модели, артикулу, цвету или составу ткани…"
             className="w-full rounded border border-stone-200 bg-stone-50/60 py-1.5 pl-9 pr-3 text-xs text-stone-900 placeholder-stone-400 focus:border-stone-400 focus:bg-white focus:outline-hidden"
           />
           {filters.search && (
@@ -124,13 +124,13 @@ export const FilterBar: React.FC<FilterBarProps> = ({
         <div className="flex flex-wrap items-center gap-2">
           {/* Silhouette Dropdown */}
           <div className="flex items-center gap-1.5">
-            <span className="text-stone-500">Silhouette:</span>
+            <span className="text-stone-500">Категория:</span>
             <select
               value={filters.silhouette}
               onChange={(e) => onFilterChange({ ...filters, silhouette: e.target.value })}
               className="rounded border border-stone-200 bg-white py-1 px-2 text-xs text-stone-800 focus:border-stone-400 focus:outline-hidden"
             >
-              <option value="all">All Silhouettes</option>
+              <option value="all">Все категории</option>
               {allSilhouettes.map((s) => (
                 <option key={s} value={s}>
                   {s}
@@ -141,7 +141,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
 
           {/* Performance Tier Filter */}
           <div className="flex items-center gap-1.5">
-            <span className="text-stone-500">Sell-Out Tier:</span>
+            <span className="text-stone-500">Уровень продаж:</span>
             <select
               value={filters.performanceTier}
               onChange={(e) =>
@@ -152,24 +152,24 @@ export const FilterBar: React.FC<FilterBarProps> = ({
               }
               className="rounded border border-stone-200 bg-white py-1 px-2 text-xs text-stone-800 focus:border-stone-400 focus:outline-hidden"
             >
-              <option value="all">All Performance Tiers</option>
-              <option value="bestseller">Top Sellers (&ge;70%)</option>
-              <option value="healthy">Healthy (40% - 69%)</option>
-              <option value="slow">Slow Movers (&lt;40%)</option>
-              <option value="soldout">Sold Out (100%)</option>
+              <option value="all">Все уровни</option>
+              <option value="bestseller">Лидеры продаж (≥70%)</option>
+              <option value="healthy">Стабильные продажи (40–69%)</option>
+              <option value="slow">Низкие продажи (&lt;40%)</option>
+              <option value="soldout">Распродано (100%)</option>
             </select>
           </div>
 
           {/* PO Filter */}
           {allPOs.length > 0 && (
             <div className="flex items-center gap-1.5">
-              <span className="text-stone-500">Order:</span>
+              <span className="text-stone-500">Заказ:</span>
               <select
                 value={filters.poFilter}
                 onChange={(e) => onFilterChange({ ...filters, poFilter: e.target.value })}
                 className="rounded border border-stone-200 bg-white py-1 px-2 text-xs text-stone-800 focus:border-stone-400 focus:outline-hidden"
               >
-                <option value="all">All Orders</option>
+                <option value="all">Все заказы</option>
                 {allPOs.map((po) => (
                   <option key={po} value={po}>
                     {po}
@@ -183,7 +183,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
         {/* Sort Order & Results Count */}
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-1.5">
-            <span className="text-stone-500">Sort:</span>
+            <span className="text-stone-500">Сортировка:</span>
             <select
               value={filters.sortBy}
               onChange={(e) =>
@@ -194,20 +194,20 @@ export const FilterBar: React.FC<FilterBarProps> = ({
               }
               className="rounded border border-stone-200 bg-white py-1 px-2 text-xs font-medium text-stone-800 focus:border-stone-400 focus:outline-hidden"
             >
-              <option value="soldDesc">Units Sold (High → Low)</option>
-              <option value="sellOutDesc">Sell-Out % (High → Low)</option>
-              <option value="orderedDesc">Units Ordered (High → Low)</option>
-              <option value="stockDesc">Stock Remaining (High → Low)</option>
-              <option value="revenueDesc">Revenue Generated (€)</option>
-              <option value="nameAsc">Style Name (A → Z)</option>
-              <option value="sellOutAsc">Sell-Out % (Low → High)</option>
+              <option value="soldDesc">Продано: от большего к меньшему</option>
+              <option value="sellOutDesc">Продажи %: от большего к меньшему</option>
+              <option value="orderedDesc">Заказано: от большего к меньшему</option>
+              <option value="stockDesc">Остаток: от большего к меньшему</option>
+              <option value="revenueDesc">Выручка (€)</option>
+              <option value="nameAsc">Название модели (А → Я)</option>
+              <option value="sellOutAsc">Продажи %: от меньшего к большему</option>
             </select>
           </div>
 
           <span className="text-stone-400">|</span>
 
           <span className="text-stone-500">
-            Showing <strong className="text-stone-800">{resultCount}</strong> of {totalCount} styles
+            Показано <strong className="text-stone-800">{resultCount}</strong> из {totalCount} моделей
           </span>
         </div>
       </div>

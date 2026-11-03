@@ -35,10 +35,10 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
   const isHighVelocity = product.sellOutPct >= 70;
   const isSoldOut = product.stockRemaining === 0;
   const sellOutIssues = [
-    product.unitsOrdered < 0 || product.unitsSold < 0 ? "Valori negativi rilevati." : "",
-    product.unitsSold > product.unitsOrdered ? "Sell-out superiore al sell-in." : "",
+    product.unitsOrdered < 0 || product.unitsSold < 0 ? "Обнаружены отрицательные значения." : "",
+    product.unitsSold > product.unitsOrdered ? "Продажи превышают объем поставки." : "",
     product.unitsOrdered - product.unitsSold !== product.stockRemaining
-      ? "La rimanenza non coincide con sell-in meno sell-out."
+      ? "Остаток не равен разнице между поставкой и продажами."
       : "",
   ].filter(Boolean);
 
@@ -74,11 +74,11 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
             />
             <div className="absolute bottom-4 left-4 right-4 rounded-lg bg-stone-900/85 p-3.5 text-white backdrop-blur-xs">
               <div className="flex items-center justify-between text-xs">
-                <span className="uppercase tracking-widest text-stone-300">Linesheet</span>
+                <span className="uppercase tracking-widest text-stone-300">Линейка</span>
                 <span className="font-medium text-amber-200">{product.linesheet}</span>
               </div>
               <div className="mt-1 text-xs text-stone-300 truncate">
-                {product.fabrication || "Made in Italy - Luisa Spagnoli Haute Couture"}
+                {product.fabrication || "Высокая мода Luisa Spagnoli · Сделано в Италии"}
               </div>
             </div>
           </div>
@@ -110,10 +110,10 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
               <div className="flex items-center justify-between">
                 <div>
                   <span className="text-xs uppercase tracking-wider text-stone-500 font-medium">
-                    Performance Sell-Out
+                    Показатели продаж
                   </span>
                   <div className="text-[10px] text-stone-400 font-mono">
-                    Formula: (Pezzi Venduti ÷ Pezzi Ordinati) × 100
+                    Формула: (Продано ÷ Заказано) × 100
                   </div>
                 </div>
                 <span
@@ -125,7 +125,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                         : "text-stone-800"
                   }`}
                 >
-                  {isSoldOut ? "100% Sold Out" : `${product.sellOutPct.toFixed(1)}%`}
+                  {isSoldOut ? "Распродано · 100%" : `${product.sellOutPct.toFixed(1)}%`}
                 </span>
               </div>
 
@@ -139,10 +139,10 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
               {/* Exact formula calculation */}
               <div className="mt-3 rounded-lg bg-white border border-stone-200 p-2.5 text-xs font-mono text-stone-700 flex flex-wrap items-center justify-between gap-1">
                 <span className="text-stone-500 font-sans-clean text-[11px]">
-                  Calcolo Sell-Out:
+                  Расчет продаж:
                 </span>
                 <span className="font-semibold text-emerald-900">
-                  ({product.unitsSold} venduti / {product.unitsOrdered} ordinati) × 100 ={" "}
+                  ({product.unitsSold} продано / {product.unitsOrdered} заказано) × 100 ={" "}
                   {product.sellOutPct.toFixed(1)}%
                 </span>
               </div>
@@ -162,13 +162,13 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
             </div>
 
             <div className={`mt-2 rounded-lg px-3 py-2 text-xs ${sellOutIssues.length ? "border border-rose-200 bg-rose-50 text-rose-800" : "border border-emerald-200 bg-emerald-50 text-emerald-800"}`}>
-              {sellOutIssues.length ? `Verifica dati: ${sellOutIssues.join(" ")}` : "Verifica dati: sell-in, sell-out e rimanenza coerenti."}
+              {sellOutIssues.length ? `Проверка данных: ${sellOutIssues.join(" ")}` : "Проверка данных: поставка, продажи и остаток согласованы."}
             </div>
 
             {modelDescription && (
               <div className="mt-4 rounded-lg border border-stone-200 bg-white p-4">
                 <h3 className="text-xs font-bold uppercase tracking-wider text-stone-500">
-                  Descrizione del modello
+                  Описание модели
                 </h3>
                 <p className="mt-2 text-sm leading-relaxed text-stone-700 whitespace-pre-line">
                   {modelDescription}
@@ -198,12 +198,12 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                             : "border-stone-200 bg-white text-stone-700"
                       }`}
                     >
-                      <span className="block font-mono font-bold text-xs">Taglia {sz}</span>
+                      <span className="block font-mono font-bold text-xs">Размер {sz}</span>
                       <span className="block mt-1 text-[11px]">
-                        Venduti: <strong>{sld}</strong>/{ord}
+                        Продано: <strong>{sld}</strong>/{ord}
                       </span>
                       <span className="block text-[10px] text-stone-400">
-                        {isSzSoldOut ? "Esaurita" : `${rem} rimasti`}
+                        {isSzSoldOut ? "Нет в наличии" : `Осталось: ${rem}`}
                       </span>
                     </div>
                   );
@@ -214,28 +214,28 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
             {/* Financial & Margin Metrics */}
             <div className="mt-5 border-t border-stone-100 pt-4">
               <h4 className="text-xs font-semibold uppercase tracking-wider text-stone-500">
-                Metriche Finanziarie (EUR)
+                Финансовые показатели (EUR)
               </h4>
               <div className="mt-2.5 grid grid-cols-3 gap-2.5 text-xs">
                 <div className="rounded-lg border border-stone-200 p-2.5 bg-stone-50/50">
-                  <span className="block text-stone-400 text-[10px] uppercase">Prezzo Whs</span>
+                  <span className="block text-stone-400 text-[10px] uppercase">Оптовая цена</span>
                   <span className="font-semibold text-stone-900 text-sm">
                     €{product.wholesaleEur}
                   </span>
-                  <span className="block text-[10px] text-stone-400">JOOR listino</span>
+                  <span className="block text-[10px] text-stone-400">Прайс-лист JOOR</span>
                 </div>
                 <div className="rounded-lg border border-stone-200 p-2.5 bg-stone-50/50">
-                  <span className="block text-stone-400 text-[10px] uppercase">Prezzo Retail</span>
+                  <span className="block text-stone-400 text-[10px] uppercase">Розничная цена</span>
                   <span className="font-semibold text-stone-900 text-sm">
                     €{product.suggRetailEur}
                   </span>
                   <span className="block text-[10px] text-emerald-800 font-medium">
-                    Markup {markup}x
+                    Наценка {markup}×
                   </span>
                 </div>
                 <div className="rounded-lg border border-stone-200 p-2.5 bg-stone-50/50">
                   <span className="block text-stone-400 text-[10px] uppercase">
-                    Incasso Realizzato
+                    Фактическая выручка
                   </span>
                   <span className="font-semibold text-stone-900 text-sm">
                     €{product.realizedRevenueEur.toLocaleString("it-IT")}

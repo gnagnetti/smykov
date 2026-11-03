@@ -27,14 +27,14 @@ export const KpiMetrics: React.FC<KpiMetricsProps> = ({ products, orders }) => {
       {/* 1. Overall Sell Out */}
       <div className="rounded-lg border border-stone-200 bg-white p-4 shadow-xs">
         <div className="flex items-center justify-between text-xs text-stone-500 font-sans-clean">
-          <span>Sell-Out Totale</span>
+          <span>Общий уровень продаж</span>
           <TrendingUp className="h-4 w-4 text-emerald-700" />
         </div>
         <div className="mt-2 flex items-baseline gap-2">
           <span className="font-serif-luxury text-3xl font-semibold text-stone-900">
             {overallSellOut.toFixed(1)}%
           </span>
-          <span className="text-[11px] text-emerald-700 font-medium">Target 70%</span>
+          <span className="text-[11px] text-emerald-700 font-medium">Цель 70%</span>
         </div>
         <div className="mt-2 h-1.5 w-full bg-stone-100 rounded-full overflow-hidden">
           <div
@@ -50,24 +50,24 @@ export const KpiMetrics: React.FC<KpiMetricsProps> = ({ products, orders }) => {
       {/* 2. Units Sold / Ordered */}
       <div className="rounded-lg border border-stone-200 bg-white p-4 shadow-xs">
         <div className="flex items-center justify-between text-xs text-stone-500 font-sans-clean">
-          <span>Units Sold / Ordered</span>
+          <span>Продано / заказано</span>
           <ShoppingBag className="h-4 w-4 text-stone-600" />
         </div>
         <div className="mt-2 flex items-baseline gap-1.5">
           <span className="font-serif-luxury text-3xl font-semibold text-stone-900">
             {totalSold}
           </span>
-          <span className="text-xs text-stone-500 font-sans-clean">/ {totalOrdered} pcs</span>
+          <span className="text-xs text-stone-500 font-sans-clean">/ {totalOrdered} шт.</span>
         </div>
         <div className="mt-2 text-xs text-stone-500">
-          <span>{stockRemaining} units on floor/stock</span>
+          <span>Остаток на складе: {stockRemaining} шт.</span>
         </div>
       </div>
 
       {/* 3. Realized Retail Turnover */}
       <div className="rounded-lg border border-stone-200 bg-white p-4 shadow-xs">
         <div className="flex items-center justify-between text-xs text-stone-500 font-sans-clean">
-          <span>Realized Retail Revenue</span>
+          <span>Фактическая выручка</span>
           <Euro className="h-4 w-4 text-amber-800" />
         </div>
         <div className="mt-2 flex items-baseline gap-1">
@@ -76,14 +76,14 @@ export const KpiMetrics: React.FC<KpiMetricsProps> = ({ products, orders }) => {
           </span>
         </div>
         <div className="mt-2 text-xs text-stone-500">
-          <span>Max pot: €{totalRetailPotential.toLocaleString("it-IT")}</span>
+          <span>Максимальный потенциал: €{totalRetailPotential.toLocaleString("ru-RU")}</span>
         </div>
       </div>
 
       {/* 4. Wholesale Budget Invested */}
       <div className="rounded-lg border border-stone-200 bg-white p-4 shadow-xs">
         <div className="flex items-center justify-between text-xs text-stone-500 font-sans-clean">
-          <span>Wholesale Value</span>
+          <span>Закупочная стоимость</span>
           <Euro className="h-4 w-4 text-stone-500" />
         </div>
         <div className="mt-2 flex items-baseline gap-1">
@@ -92,41 +92,41 @@ export const KpiMetrics: React.FC<KpiMetricsProps> = ({ products, orders }) => {
           </span>
         </div>
         <div className="mt-2 text-xs text-stone-500">
-          <span>Mark-up avg ~2.6x</span>
+          <span>Средняя наценка ~2,6×</span>
         </div>
       </div>
 
       {/* 5. Merchandising Health */}
       <div className="rounded-lg border border-stone-200 bg-white p-4 shadow-xs">
         <div className="flex items-center justify-between text-xs text-stone-500 font-sans-clean">
-          <span>Catalog Assortment</span>
+          <span>Ассортимент каталога</span>
           <Layers className="h-4 w-4 text-stone-500" />
         </div>
         <div className="mt-2 flex items-baseline gap-1.5">
           <span className="font-serif-luxury text-3xl font-semibold text-stone-900">
             {products.length}
           </span>
-          <span className="text-xs text-stone-500">SKUs</span>
+          <span className="text-xs text-stone-500">артикулов</span>
         </div>
         <div className="mt-2 text-xs text-stone-500">
-          <span>Across {uniquePOs} Active PO Orders</span>
+          <span>В {uniquePOs} активных заказах</span>
         </div>
       </div>
 
       {/* 6. Velocity Split */}
       <div className="rounded-lg border border-stone-200 bg-white p-4 shadow-xs">
         <div className="flex items-center justify-between text-xs text-stone-500 font-sans-clean">
-          <span>Velocity Analysis</span>
+          <span>Динамика продаж</span>
           <AlertCircle className="h-4 w-4 text-stone-400" />
         </div>
         <div className="mt-2 flex items-baseline gap-2">
           <span className="text-base font-semibold text-emerald-800">
             {bestSellersCount}{" "}
-            <span className="text-xs font-normal text-stone-500">Top (&ge;70%)</span>
+            <span className="text-xs font-normal text-stone-500">Лидеры (≥70%)</span>
           </span>
         </div>
         <div className="mt-2 text-xs text-amber-800">
-          <span>{slowMoversCount} under 40% sell-out</span>
+          <span>{slowMoversCount} моделей с продажами ниже 40%</span>
         </div>
       </div>
     </section>

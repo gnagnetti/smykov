@@ -28,34 +28,34 @@ export const TableView: React.FC<TableViewProps> = ({ products, onSelect }) => {
                 Foto
               </th>
               <th scope="col" className="py-3 px-4">
-                Nome Modello & Colore
+                Модель и цвет
               </th>
               <th scope="col" className="py-3 px-3">
-                Silhouette
+                Категория
               </th>
               <th scope="col" className="py-3 px-3 text-right">
-                Pezzi Acquistati
+                Заказано, шт.
               </th>
               <th scope="col" className="py-3 px-3 text-right">
-                Pezzi Venduti
+                Продано, шт.
               </th>
               <th scope="col" className="py-3 px-3 text-right">
                 Rimanenza
               </th>
               <th scope="col" className="py-3 px-4 text-right min-w-[150px]">
-                <div>% Sell Out</div>
+                <div>Продано, %</div>
                 <div className="text-[9px] font-mono normal-case text-stone-400 font-normal">
-                  (venduti / ordinati × 100)
+                  (продано / заказано × 100)
                 </div>
               </th>
               <th scope="col" className="py-3 px-3 text-right">
-                Prezzi (Whs / Ret)
+                Цены (опт / розница)
               </th>
               <th scope="col" className="py-3 px-3 text-right">
-                Incasso Realizzato
+                Выручка
               </th>
               <th scope="col" className="py-3 px-3 text-center w-16">
-                Azione
+                Действие
               </th>
             </tr>
           </thead>
@@ -108,21 +108,21 @@ export const TableView: React.FC<TableViewProps> = ({ products, onSelect }) => {
                   {/* Pezzi Acquistati */}
                   <td className="py-2.5 px-3 text-right font-medium text-stone-800">
                     {p.unitsOrdered}{" "}
-                    <span className="text-[10px] text-stone-400 font-normal">pcs</span>
+                    <span className="text-[10px] text-stone-400 font-normal">шт.</span>
                   </td>
 
                   {/* Pezzi Venduti */}
                   <td className="py-2.5 px-3 text-right">
                     <span className="font-semibold text-stone-900 text-sm">{p.unitsSold}</span>
-                    <span className="text-[10px] text-stone-400"> pcs</span>
+                    <span className="text-[10px] text-stone-400"> шт.</span>
                   </td>
 
                   {/* Rimanenza Stock */}
                   <td className="py-2.5 px-3 text-right">
                     {isOut ? (
-                      <span className="text-rose-700 font-medium">Esaurito (0)</span>
+                      <span className="text-rose-700 font-medium">Нет в наличии (0)</span>
                     ) : (
-                      <span className="text-stone-700">{p.stockRemaining} pcs</span>
+                      <span className="text-stone-700">{p.stockRemaining} шт.</span>
                     )}
                   </td>
 
