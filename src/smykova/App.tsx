@@ -25,7 +25,7 @@ import { PoComparisonView } from "./components/PoComparisonView";
 import { ProductDetailModal } from "./components/ProductDetailModal";
 import { FileUploadModal } from "./components/FileUploadModal";
 import { DataEngineerConverterModal } from "./components/DataEngineerConverterModal";
-import { DataEngineerRow } from "./utils/excelParser";
+import { DataEngineerRow, parseOrdersFile, mergeOrderAndSellOut } from "./utils/excelParser";
 import { Upload, Cpu, Sparkles } from "lucide-react";
 
 export default function App() {
@@ -49,6 +49,28 @@ export default function App() {
     }
     setWorkspaceLoaded(true);
   }, []);
+  useEffect(() => {
+    if (!workspaceLoaded) return;
+    const savedWorkspace = localStorage.getItem("smykova-uploaded-workspace");
+    if (savedWorkspace) return;
+    let cancelled = false;
+    fetch("/static/6_Orders_2026-10-28.xlsx")
+      .then((response) => {
+        if (!response.ok) throw new Error(`Не удалось загрузить статические заказы: ${response.status}`);
+        return response.blob();
+      })
+      .then((blob) => new File([blob], "6_Orders_2026-10-28.xlsx", { type: blob.type }))
+      .then(parseOrdersFile)
+      .then(({ orders: loadedOrders, boutiqueInfo: loadedInfo }) => {
+        if (cancelled) return;
+        setOrders(loadedOrders);
+        setProducts(mergeOrderAndSellOut(loadedOrders, [], []));
+        setBoutiqueInfo((current) => ({ ...current, ...loadedInfo }));
+        setDataSourceLabel(`Статическая база JOOR · 6_Orders_2026-10-28.xlsx · заказов: ${loadedOrders.length}`);
+      })
+      .catch((error) => console.error("Не удалось загрузить статическую базу JOOR", error));
+    return () => { cancelled = true; };
+  }, [workspaceLoaded]);
   useEffect(() => {
     if (!workspaceLoaded || (!products.length && !orders.length)) return;
     try {
