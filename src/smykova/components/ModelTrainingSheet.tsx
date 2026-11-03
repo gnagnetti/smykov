@@ -506,10 +506,10 @@ export const ModelTrainingSheet: React.FC<ModelTrainingSheetProps> = ({
                       <div className="mt-4 space-y-3 border-t border-stone-200 pt-3">
                         {look.mentions.map((mn, k) => (
                           <div key={k}>
-                            <div className="mb-1.5 font-mono text-xs font-bold text-stone-900">
+                            <div className="mb-2 font-mono text-sm font-bold text-stone-900">
                               {mn.name} {mn.code}
                             </div>
-                            <SizeCards check={mn.check} compact />
+                            <SizeCards check={mn.check} />
                           </div>
                         ))}
                       </div>
