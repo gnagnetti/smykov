@@ -55,8 +55,8 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
         <button
           type="button"
           onClick={onClose}
-          aria-label="Chiudi finestra"
-          title="Chiudi finestra"
+          aria-label="Закрыть окно"
+          title="Закрыть окно"
           className="absolute right-5 top-5 z-20 rounded-full bg-stone-100 p-2.5 text-stone-500 hover:bg-stone-200 hover:text-stone-900 transition shadow-xs"
         >
           <X className="h-5 w-5" />
@@ -90,7 +90,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
               <div className="flex items-center gap-2 text-xs uppercase tracking-wider text-amber-900 font-medium">
                 <span>{product.silhouette}</span>
                 <span>·</span>
-                <span className="font-mono">Mod. #{product.styleNumber}</span>
+                <span className="font-mono">Модель №{product.styleNumber}</span>
               </div>
               <h2 className="mt-1 font-serif-luxury text-3xl sm:text-4xl font-bold tracking-wide text-stone-900">
                 {product.styleName}
@@ -99,7 +99,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                 {product.colorCode || product.color}
                 {product.colorPrefix && (
                   <span className="ml-2 font-mono text-xs text-stone-400">
-                    (Prefix: {product.colorPrefix})
+                    (Код цвета: {product.colorPrefix})
                   </span>
                 )}
               </div>
@@ -149,14 +149,14 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
 
               <div className="mt-3 flex items-center justify-between text-xs text-stone-600">
                 <span>
-                  Venduti: <strong className="text-stone-900">{product.unitsSold}</strong> capi
+                  Продано: <strong className="text-stone-900">{product.unitsSold}</strong> шт.
                 </span>
                 <span>
-                  Ordinati: <strong className="text-stone-900">{product.unitsOrdered}</strong> capi
+                  Заказано: <strong className="text-stone-900">{product.unitsOrdered}</strong> шт.
                 </span>
                 <span>
-                  Rimanenza: <strong className="text-stone-900">{product.stockRemaining}</strong>{" "}
-                  capi
+                  Остаток: <strong className="text-stone-900">{product.stockRemaining}</strong>{" "}
+                  шт.
                 </span>
               </div>
             </div>
@@ -179,7 +179,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
             {/* Sizes Breakdown Grid */}
             <div className="mt-5">
               <h4 className="text-xs font-semibold uppercase tracking-wider text-stone-500">
-                Ripartizione Curva Taglie
+                Распределение по размерам
               </h4>
               <div className="mt-2.5 grid grid-cols-4 gap-2 text-center text-xs">
                 {Object.entries(product.sizesOrdered).map(([sz, ord]) => {

@@ -52,7 +52,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onSelect }) =
                   : "bg-white/90 text-stone-900"
           }`}
         >
-          {isSoldOut ? "SOLD OUT" : `${product.sellOutPct.toFixed(0)}% S/O`}
+          {isSoldOut ? "РАСПРОДАНО" : `${product.sellOutPct.toFixed(0)}%`}
         </div>
 
         {/* Hover Inspect overlay button */}

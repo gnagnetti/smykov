@@ -83,7 +83,7 @@ export const KpiMetrics: React.FC<KpiMetricsProps> = ({ products, orders }) => {
       {/* 4. Wholesale Budget Invested */}
       <div className="rounded-lg border border-stone-200 bg-white p-4 shadow-xs">
         <div className="flex items-center justify-between text-xs text-stone-500 font-sans-clean">
-          <span>Закупочная стоимость</span>
+          <span>Оптовая стоимость</span>
           <Euro className="h-4 w-4 text-stone-500" />
         </div>
         <div className="mt-2 flex items-baseline gap-1">

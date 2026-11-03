@@ -29,21 +29,28 @@ import { DataEngineerRow } from "./utils/excelParser";
 import { Upload, Cpu, Sparkles } from "lucide-react";
 
 export default function App() {
-  const savedWorkspace = useMemo(() => {
-    try {
-      return JSON.parse(localStorage.getItem("smykova-uploaded-workspace") || "null");
-    } catch {
-      return null;
-    }
-  }, []);
-  const [boutiqueInfo, setBoutiqueInfo] = useState<BoutiqueInfo>(savedWorkspace?.boutiqueInfo || INITIAL_BOUTIQUE_INFO);
-  const [orders, setOrders] = useState<OrderItem[]>(savedWorkspace?.orders || []);
-  const [products, setProducts] = useState<MergedProduct[]>(savedWorkspace?.products || []);
-  const [dataSourceLabel, setDataSourceLabel] = useState(
-    savedWorkspace?.dataSourceLabel || "Файлы не загружены · Загрузите файлы",
-  );
+  const [boutiqueInfo, setBoutiqueInfo] = useState<BoutiqueInfo>(INITIAL_BOUTIQUE_INFO);
+  const [orders, setOrders] = useState<OrderItem[]>([]);
+  const [products, setProducts] = useState<MergedProduct[]>([]);
+  const [dataSourceLabel, setDataSourceLabel] = useState("Файлы не загружены · Загрузите файлы");
+  const [workspaceLoaded, setWorkspaceLoaded] = useState(false);
+
   useEffect(() => {
-    if (!products.length && !orders.length) return;
+    try {
+      const savedWorkspace = JSON.parse(localStorage.getItem("smykova-uploaded-workspace") || "null");
+      if (savedWorkspace) {
+        setBoutiqueInfo(savedWorkspace.boutiqueInfo || INITIAL_BOUTIQUE_INFO);
+        setOrders(savedWorkspace.orders || []);
+        setProducts(savedWorkspace.products || []);
+        setDataSourceLabel(savedWorkspace.dataSourceLabel || "Файлы не загружены · Загрузите файлы");
+      }
+    } catch {
+      // Ignore unavailable or invalid saved workspace data.
+    }
+    setWorkspaceLoaded(true);
+  }, []);
+  useEffect(() => {
+    if (!workspaceLoaded || (!products.length && !orders.length)) return;
     try {
       localStorage.setItem("smykova-uploaded-workspace", JSON.stringify({
         boutiqueInfo,
