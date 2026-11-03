@@ -1,8 +1,8 @@
 // @ts-nocheck -- imported code, written for a looser TypeScript config
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { MergedProduct, OrderItem } from "../types";
 import { findCollectionRow, loadCollectionCsv } from "../data/collectionCsv";
-import { X, CheckCircle2, AlertCircle, ShoppingBag, Euro, Sparkles } from "lucide-react";
+import { X, CheckCircle2, AlertCircle, ShoppingBag, Euro, Sparkles, Download } from "lucide-react";
 import { ModelTrainingSheet } from "./ModelTrainingSheet";
 
 interface ProductDetailModalProps {
@@ -20,6 +20,23 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
 }) => {
   const [imgError, setImgError] = useState(false);
   const [modelDescription, setModelDescription] = useState("");
+  const detailRef = useRef<HTMLDivElement>(null);
+
+  const handleDownload = () => {
+    if (!detailRef.current || !product) return;
+    const content = detailRef.current.cloneNode(true) as HTMLElement;
+    content.querySelectorAll("button").forEach((button) => button.remove());
+    const stylesheets = Array.from(document.querySelectorAll('link[rel="stylesheet"], style'))
+      .map((node) => node.outerHTML)
+      .join("\\n");
+    const html = `<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${product.styleName} — Luisa Spagnoli</title>${stylesheets}</head><body>${content.outerHTML}</body></html>`;
+    const url = URL.createObjectURL(new Blob([html], { type: "text/html;charset=utf-8" }));
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `${product.styleName.replace(/[^\\p{L}\\p{N}-]+/gu, "_")}_карточка.html`;
+    link.click();
+    URL.revokeObjectURL(url);
+  };
 
   useEffect(() => {
     if (!product) return;
@@ -48,6 +65,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-stone-950/70 p-3 sm:p-6 backdrop-blur-xs">
       <div
+        ref={detailRef}
         className="relative max-h-[92vh] w-full max-w-5xl overflow-y-auto rounded-2xl bg-white shadow-2xl p-6 sm:p-8"
         onClick={(e) => e.stopPropagation()}
       >
@@ -277,14 +295,22 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
           orders={orders}
         />
 
-        <div className="mt-8 flex justify-end border-t border-stone-200 pt-5">
+        <div className="mt-8 flex justify-end gap-2 border-t border-stone-200 pt-5">
+          <button
+            type="button"
+            onClick={handleDownload}
+            className="inline-flex items-center gap-2 rounded-lg border border-stone-300 bg-white px-4 py-2.5 text-sm font-medium text-stone-800 hover:bg-stone-50 transition"
+          >
+            <Download className="h-4 w-4" />
+            Скачать карточку
+          </button>
           <button
             type="button"
             onClick={onClose}
             className="inline-flex items-center gap-2 rounded-lg bg-stone-900 px-4 py-2.5 text-sm font-medium text-white hover:bg-stone-700 transition"
           >
             <X className="h-4 w-4" />
-            Chiudi finestra
+            Закрыть окно
           </button>
         </div>
       </div>
