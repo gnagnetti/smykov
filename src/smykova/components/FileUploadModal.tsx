@@ -67,13 +67,13 @@ export const FileUploadModal: React.FC<FileUploadModalProps> = ({
       const res = await fetch(url);
       if (!res.ok) throw new Error(`${name}: ${res.status}`);
       return new File([await res.blob()], name, {
-        type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        type: name.endsWith(".csv") ? "text/csv" : "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
       });
     };
     if (!ordersFile)
       load(staticOrders.url, "6_Orders_2026-10-28.xlsx").then(setOrdersFile).catch(console.error);
     if (!photosFile)
-      load(staticPhotos.url, "226FWCollectionMultilingua.xlsx")
+      load(staticPhotos.url, "226FWCollectionMultilingua.csv")
         .then(setPhotosFile)
         .catch(console.error);
   }, [isOpen]);

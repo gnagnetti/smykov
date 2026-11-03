@@ -25,7 +25,7 @@ import { PoComparisonView } from "./components/PoComparisonView";
 import { ProductDetailModal } from "./components/ProductDetailModal";
 import { FileUploadModal } from "./components/FileUploadModal";
 import { DataEngineerConverterModal } from "./components/DataEngineerConverterModal";
-import { DataEngineerRow, parseOrdersFile, mergeOrderAndSellOut } from "./utils/excelParser";
+import { DataEngineerRow, parseOrdersFile, parsePhotoCatalogFile, mergeOrderAndSellOut } from "./utils/excelParser";
 import { Upload, Cpu, Sparkles } from "lucide-react";
 
 export default function App() {
@@ -54,21 +54,23 @@ export default function App() {
     const savedWorkspace = localStorage.getItem("smykova-uploaded-workspace");
     if (savedWorkspace) return;
     let cancelled = false;
-    fetch("/static/6_Orders_2026-10-28.xlsx")
-      .then((response) => {
-        if (!response.ok) throw new Error(`Не удалось загрузить статические заказы: ${response.status}`);
-        return response.blob();
-      })
-      .then((blob) => new File([blob], "6_Orders_2026-10-28.xlsx", { type: blob.type }))
-      .then(parseOrdersFile)
-      .then(({ orders: loadedOrders, boutiqueInfo: loadedInfo }) => {
+    const loadFile = async (url: string, name: string) => {
+      const response = await fetch(url);
+      if (!response.ok) throw new Error(`Не удалось загрузить ${name}: ${response.status}`);
+      return new File([await response.blob()], name);
+    };
+    Promise.all([
+      loadFile("/static/6_Orders_2026-10-28.xlsx", "6_Orders_2026-10-28.xlsx").then(parseOrdersFile),
+      loadFile("/static/226FWCollectionMultilingua.csv", "226FWCollectionMultilingua.csv").then(parsePhotoCatalogFile),
+    ])
+      .then(([{ orders: loadedOrders, boutiqueInfo: loadedInfo }, photos]) => {
         if (cancelled) return;
         setOrders(loadedOrders);
-        setProducts(mergeOrderAndSellOut(loadedOrders, [], []));
+        setProducts(mergeOrderAndSellOut(loadedOrders, photos, []));
         setBoutiqueInfo((current) => ({ ...current, ...loadedInfo }));
-        setDataSourceLabel(`Статическая база JOOR · 6_Orders_2026-10-28.xlsx · заказов: ${loadedOrders.length}`);
+        setDataSourceLabel(`Статические базы JOOR и 226FW · заказов: ${loadedOrders.length} · фото/моделей: ${photos.length}`);
       })
-      .catch((error) => console.error("Не удалось загрузить статическую базу JOOR", error));
+      .catch((error) => console.error("Не удалось загрузить статические базы JOOR и 226FW", error));
     return () => { cancelled = true; };
   }, [workspaceLoaded]);
   useEffect(() => {
