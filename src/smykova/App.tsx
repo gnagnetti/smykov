@@ -25,7 +25,6 @@ import { PoComparisonView } from "./components/PoComparisonView";
 import { ProductDetailModal } from "./components/ProductDetailModal";
 import { FileUploadModal } from "./components/FileUploadModal";
 import { DataEngineerConverterModal } from "./components/DataEngineerConverterModal";
-import { VerificationLoopModal } from "./components/VerificationLoopModal";
 import { DataEngineerRow } from "./utils/excelParser";
 import { Upload, Cpu, Sparkles } from "lucide-react";
 
@@ -43,8 +42,6 @@ export default function App() {
   const [dataSourceLabel, setDataSourceLabel] = useState(
     savedWorkspace?.dataSourceLabel || "Nessun file caricato · Please upload files",
   );
-  const [isVerificationOpen, setIsVerificationOpen] = useState(false);
-
   useEffect(() => {
     if (!products.length && !orders.length) return;
     try {
@@ -258,11 +255,9 @@ export default function App() {
       {/* Brand & Boutique Navigation Header */}
       <Header
         boutiqueInfo={boutiqueInfo}
-        products={filteredProducts}
         orders={orders}
         onOpenUpload={() => setIsUploadOpen(true)}
         onOpenConverter={() => setIsConverterOpen(true)}
-        onOpenVerificationLoop={() => setIsVerificationOpen(true)}
         onResetData={handleResetData}
         dataSourceLabel={dataSourceLabel}
       />
@@ -435,12 +430,6 @@ export default function App() {
         onOpenUploadWithFile={handleOpenUploadWithConvertedFile}
       />
 
-      {/* Verification Loop & Reconciliation Auditor Modal */}
-      <VerificationLoopModal
-        isOpen={isVerificationOpen}
-        onClose={() => setIsVerificationOpen(false)}
-        products={products}
-      />
     </div>
   );
 }

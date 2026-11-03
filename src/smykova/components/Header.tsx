@@ -1,39 +1,23 @@
 // @ts-nocheck -- imported code, written for a looser TypeScript config
 import React from "react";
-import { BoutiqueInfo, MergedProduct, OrderItem } from "../types";
-import {
-  Upload,
-  Download,
-  FileSpreadsheet,
-  RefreshCw,
-  Printer,
-  Cpu,
-  ShieldCheck,
-} from "lucide-react";
-import {
-  exportConsolidatedOrdersCSV,
-  exportSellOutReportCSV,
-  printReportToPdf,
-} from "../utils/exportUtils";
+import { BoutiqueInfo, OrderItem } from "../types";
+import { Upload, FileSpreadsheet, RefreshCw, Printer, Cpu } from "lucide-react";
+import { exportConsolidatedOrdersCSV, printReportToPdf } from "../utils/exportUtils";
 
 interface HeaderProps {
   boutiqueInfo: BoutiqueInfo;
-  products: MergedProduct[];
   orders: OrderItem[];
   onOpenUpload: () => void;
   onOpenConverter: () => void;
-  onOpenVerificationLoop: () => void;
   onResetData: () => void;
   dataSourceLabel: string;
 }
 
 export const Header: React.FC<HeaderProps> = ({
   boutiqueInfo,
-  products,
   orders,
   onOpenUpload,
   onOpenConverter,
-  onOpenVerificationLoop,
   onResetData,
   dataSourceLabel,
 }) => {
@@ -109,16 +93,6 @@ export const Header: React.FC<HeaderProps> = ({
             <span>{dataSourceLabel}</span>
           </div>
 
-          {/* Verification Loop Button */}
-          <button
-            onClick={onOpenVerificationLoop}
-            className="inline-flex items-center gap-1.5 rounded-full border border-emerald-300 bg-emerald-50 px-3 py-1.5 text-xs font-semibold text-emerald-900 shadow-2xs hover:bg-emerald-100 hover:border-emerald-400 transition active:scale-95 cursor-pointer"
-            title="Loop di Verifica Capi: 418 Capi Accertati al 100%"
-          >
-            <ShieldCheck className="h-3.5 w-3.5 text-emerald-700" />
-            <span>Loop di Verifica: 418 Capi (100%)</span>
-          </button>
-
           <button
             onClick={onOpenUpload}
             className="inline-flex items-center gap-1.5 rounded border border-stone-300 bg-white px-3 py-1.5 text-xs font-medium text-stone-800 shadow-sm transition hover:bg-stone-50 hover:border-stone-400 active:scale-95"
@@ -127,17 +101,6 @@ export const Header: React.FC<HeaderProps> = ({
             <Upload className="h-3.5 w-3.5 text-stone-600" />
             <span>Upload Excel / CSV</span>
           </button>
-
-          <div className="relative group">
-            <button
-              onClick={() => exportSellOutReportCSV(products)}
-              className="inline-flex items-center gap-1.5 rounded border border-stone-800 bg-stone-900 px-3 py-1.5 text-xs font-medium text-white shadow-sm transition hover:bg-stone-800 active:scale-95"
-              title="Download report_sell_out_finale.csv"
-            >
-              <Download className="h-3.5 w-3.5 text-stone-300" />
-              <span>Export Sell-Out CSV</span>
-            </button>
-          </div>
 
           <button
             onClick={() => exportConsolidatedOrdersCSV(orders)}
