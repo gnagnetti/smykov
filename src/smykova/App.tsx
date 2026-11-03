@@ -52,7 +52,15 @@ export default function App() {
   useEffect(() => {
     if (!workspaceLoaded) return;
     const savedWorkspace = localStorage.getItem("smykova-uploaded-workspace");
-    if (savedWorkspace) return;
+    if (savedWorkspace) {
+      try {
+        const saved = JSON.parse(savedWorkspace);
+        const source = String(saved.dataSourceLabel || "");
+        if (!source.startsWith("Статическая база JOOR") && !source.startsWith("Статические базы JOOR")) return;
+      } catch {
+        // Replace invalid saved data with the static databases.
+      }
+    }
     let cancelled = false;
     const loadFile = async (url: string, name: string) => {
       const response = await fetch(url);
