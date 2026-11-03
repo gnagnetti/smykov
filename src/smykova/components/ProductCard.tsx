@@ -52,7 +52,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onSelect }) =
                   : "bg-white/90 text-stone-900"
           }`}
         >
-          {isSoldOut ? "РАСПРОДАНО" : `${product.sellOutPct.toFixed(0)}%`}
+          {isSoldOut ? "РАСПРОДАНО" : `Продано: ${product.unitsSold} шт.`}
         </div>
 
         {/* Hover Inspect overlay button */}
@@ -86,10 +86,9 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onSelect }) =
         <div className="mt-3">
           <div className="flex justify-between text-xs font-sans-clean">
             <span className="text-stone-600 font-medium">
-              Продано: <strong className="text-stone-900">{product.unitsSold}</strong> из{" "}
-              {product.unitsOrdered} шт.
+              Продано: <strong className="text-stone-900">{product.unitsSold} шт.</strong>
             </span>
-            <span className="font-semibold text-stone-800">{product.sellOutPct.toFixed(1)}%</span>
+            <span className="font-semibold text-stone-800">Заказано: {product.unitsOrdered} шт.</span>
           </div>
           <div className="mt-1 h-1.5 w-full overflow-hidden rounded-full bg-stone-100">
             <div
@@ -100,10 +99,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onSelect }) =
             />
           </div>
           <div className="mt-1 flex items-center justify-between text-[10px] text-stone-400 font-mono">
-            <span>
-              (продано {product.unitsSold} / заказано {product.unitsOrdered}) × 100
-            </span>
-            <span className="font-sans-clean">Rimanenza: {product.stockRemaining} pcs</span>
+            <span>Остаток: {product.stockRemaining} шт.</span>
           </div>
         </div>
 
@@ -120,7 +116,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onSelect }) =
             <span className="block text-stone-400 text-[11px]">Остаток</span>
             <span className="font-medium text-stone-800">
               {product.stockRemaining === 0 ? (
-                <span className="text-rose-700 font-semibold">0 pcs</span>
+                <span className="text-rose-700 font-semibold">0 шт.</span>
               ) : (
                 `${product.stockRemaining} шт.`
               )}

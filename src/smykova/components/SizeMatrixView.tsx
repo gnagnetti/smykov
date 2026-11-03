@@ -51,20 +51,12 @@ export const SizeMatrixView: React.FC<SizeMatrixViewProps> = ({ products, onSele
             <div key={sz} className="rounded-lg border border-stone-200 bg-white p-3 shadow-xs">
               <div className="flex items-center justify-between text-xs">
                 <span className="font-mono font-bold text-stone-900">Taglia {sz}</span>
-                <span
-                  className={`font-semibold ${
-                    pct >= 75 ? "text-emerald-800" : pct < 45 ? "text-amber-800" : "text-stone-700"
-                  }`}
-                >
-                  {pct.toFixed(0)}% S/O
-                </span>
+                <span className="font-semibold text-stone-700">Продано: {tot.sold} шт.</span>
               </div>
 
               <div className="mt-2 flex items-baseline justify-between text-xs text-stone-500">
-                <span>
-                  Venduti: <strong className="text-stone-800">{tot.sold}</strong>/{tot.ordered}
-                </span>
-                <span className="text-[11px] font-mono text-stone-400">Rimanenti: {left}</span>
+                <span>Заказано: <strong className="text-stone-800">{tot.ordered} шт.</strong></span>
+                <span className="text-[11px] font-mono text-stone-400">Остаток: {left} шт.</span>
               </div>
 
               <div className="mt-2 h-1.5 w-full bg-stone-100 rounded-full overflow-hidden">
@@ -111,7 +103,7 @@ export const SizeMatrixView: React.FC<SizeMatrixViewProps> = ({ products, onSele
                   Tot. Ordinato
                 </th>
                 <th scope="col" className="py-2.5 px-4 text-right">
-                  % S/O
+                  Продано / заказано
                 </th>
               </tr>
             </thead>
@@ -165,11 +157,11 @@ export const SizeMatrixView: React.FC<SizeMatrixViewProps> = ({ products, onSele
                   })}
 
                   <td className="py-2.5 px-3 text-right font-semibold text-stone-900">
-                    {p.unitsSold} pcs
+                    {p.unitsSold} шт.
                   </td>
-                  <td className="py-2.5 px-3 text-right text-stone-600">{p.unitsOrdered} pcs</td>
+                  <td className="py-2.5 px-3 text-right text-stone-600">{p.unitsOrdered} шт.</td>
                   <td className="py-2.5 px-4 text-right font-semibold text-emerald-800">
-                    {p.sellOutPct.toFixed(1)}%
+                    Продано: {p.unitsSold} шт.<br />Заказано: {p.unitsOrdered} шт.
                   </td>
                 </tr>
               ))}

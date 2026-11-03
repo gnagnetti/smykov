@@ -125,7 +125,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                         : "text-stone-800"
                   }`}
                 >
-                  {isSoldOut ? "Распродано · 100%" : `${product.sellOutPct.toFixed(1)}%`}
+                  {isSoldOut ? "Распродано" : `Продано: ${product.unitsSold} шт. / ${product.unitsOrdered} шт.`}
                 </span>
               </div>
 
@@ -139,11 +139,10 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
               {/* Exact formula calculation */}
               <div className="mt-3 rounded-lg bg-white border border-stone-200 p-2.5 text-xs font-mono text-stone-700 flex flex-wrap items-center justify-between gap-1">
                 <span className="text-stone-500 font-sans-clean text-[11px]">
-                  Расчет продаж:
+                  Показатели продаж:
                 </span>
                 <span className="font-semibold text-emerald-900">
-                  ({product.unitsSold} продано / {product.unitsOrdered} заказано) × 100 ={" "}
-                  {product.sellOutPct.toFixed(1)}%
+                  Продано: {product.unitsSold} шт. · Заказано: {product.unitsOrdered} шт.
                 </span>
               </div>
 

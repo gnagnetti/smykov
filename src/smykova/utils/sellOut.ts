@@ -48,10 +48,10 @@ function sizeSort(a: string, b: string) {
 }
 
 const codeMatches = (p: ProductLike, code: string) => {
-  const c = String(code).replace(/^0+/, "");
-  const pc = String(p.colorCode || "").replace(/^0+/, "");
-  const pp = String(p.colorPrefix || "").replace(/^0+/, "");
-  return (!!pc && (pc === c || pc.startsWith(c))) || (!!pp && pp === c);
+  const digits = (value: string) => (String(value).match(/\d{3,4}/g) || []).map((part) => part.replace(/^0+/, ""));
+  const wanted = digits(code);
+  if (!wanted.length) return false;
+  return [...digits(p.colorCode || ""), ...digits(p.colorPrefix || "")].some((candidate) => wanted.includes(candidate));
 };
 
 /** Exact model match (name without color codes); only falls back to prefix match when nothing exact exists. */

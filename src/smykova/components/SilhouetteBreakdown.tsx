@@ -85,12 +85,8 @@ export const SilhouetteBreakdown: React.FC<SilhouetteBreakdownProps> = ({
                     {cat.skus.length} modelli in assortimento
                   </span>
                 </div>
-                <span
-                  className={`font-serif-luxury text-xl font-semibold ${
-                    isHigh ? "text-emerald-800" : isLow ? "text-amber-800" : "text-stone-800"
-                  }`}
-                >
-                  {cat.sellOutPct.toFixed(1)}%
+                <span className="font-serif-luxury text-sm font-semibold text-stone-800">
+                  Продано: {cat.sold} шт. · Заказано: {cat.ordered} шт.
                 </span>
               </div>
 
@@ -108,11 +104,11 @@ export const SilhouetteBreakdown: React.FC<SilhouetteBreakdownProps> = ({
               <div className="mt-4 grid grid-cols-3 gap-2 border-t border-stone-100 pt-3 text-center text-xs">
                 <div>
                   <span className="block text-stone-400 text-[11px]">Ordinati</span>
-                  <span className="font-semibold text-stone-900">{cat.ordered} pcs</span>
+                  <span className="font-semibold text-stone-900">{cat.ordered} шт.</span>
                 </div>
                 <div>
                   <span className="block text-stone-400 text-[11px]">Venduti</span>
-                  <span className="font-semibold text-stone-900">{cat.sold} pcs</span>
+                  <span className="font-semibold text-stone-900">{cat.sold} шт.</span>
                 </div>
                 <div>
                   <span className="block text-stone-400 text-[11px]">Incasso</span>
@@ -139,7 +135,7 @@ export const SilhouetteBreakdown: React.FC<SilhouetteBreakdownProps> = ({
                     </div>
                   </div>
                   <span className="text-xs font-semibold text-emerald-800">
-                    {cat.topStyle.unitsSold} pcs ({cat.topStyle.sellOutPct.toFixed(0)}%)
+                    Продано: {cat.topStyle.unitsSold} шт. · Заказано: {cat.topStyle.unitsOrdered} шт.
                   </span>
                 </div>
               )}

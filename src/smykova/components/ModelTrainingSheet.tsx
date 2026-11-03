@@ -47,7 +47,10 @@ export const SizeCards: React.FC<{ check: SellOutCheck; compact?: boolean }> = (
               Размер {l.size}
             </div>
             <div className={`${compact ? "text-[11px]" : "text-sm"} text-stone-700`}>
-              Продано: <b>{l.sold}</b>/{l.ordered}
+              Продано: <b>{l.sold} шт.</b>
+            </div>
+            <div className={`${compact ? "text-[11px]" : "text-sm"} text-stone-700`}>
+              Заказано: <b>{l.ordered} шт.</b>
             </div>
             <div className={`${compact ? "text-[10px]" : "text-xs"} text-stone-400`}>
               {l.left === 0 ? "Распродано" : `Осталось: ${l.left}`}
@@ -59,8 +62,8 @@ export const SizeCards: React.FC<{ check: SellOutCheck; compact?: boolean }> = (
         className={`mt-1.5 text-[10px] ${check.verified ? "text-emerald-700" : "text-rose-700"}`}
       >
         {check.verified
-          ? `✓ Проверено: продано ${check.sold}/${check.ordered}, осталось ${check.left}`
-          : `⚠ Расхождение: продано ${check.sold} при заказе ${check.ordered} — проверьте данные sell-out`}
+          ? `✓ Проверено: продано ${check.sold} шт., заказано ${check.ordered} шт., остаток ${check.left} шт.`
+          : `⚠ Расхождение: продано ${check.sold} шт. при заказе ${check.ordered} шт. — проверьте данные о продажах`}
       </div>
     </div>
   );
@@ -419,7 +422,7 @@ export const ModelTrainingSheet: React.FC<ModelTrainingSheetProps> = ({
                 className="max-h-[380px] w-auto object-contain mx-auto"
               />
               <div className="border-t border-stone-100 px-3 py-2 text-center text-[11px] text-stone-600">
-                Sell-in / Sell-out: {mainCheck.ordered} / {mainCheck.sold} capi · {mainCheck.ordered ? ((mainCheck.sold / mainCheck.ordered) * 100).toFixed(1) : "0.0"}%
+                Продано: {mainCheck.sold} шт. · Заказано: {mainCheck.ordered} шт.
               </div>
             </div>
           </div>
@@ -461,7 +464,7 @@ export const ModelTrainingSheet: React.FC<ModelTrainingSheetProps> = ({
                     <div className="mt-2">
                       <SizeCards check={ck} compact />
                       <p className="mt-2 text-center text-[10px] text-stone-500">
-                        Sell-in / Sell-out: {ck.ordered} / {ck.sold} · {ck.ordered ? ((ck.sold / ck.ordered) * 100).toFixed(1) : "0.0"}%
+                        Продано: {ck.sold} шт. · Заказано: {ck.ordered} шт.
                       </p>
                     </div>
                   </div>
@@ -493,7 +496,7 @@ export const ModelTrainingSheet: React.FC<ModelTrainingSheetProps> = ({
                               className="h-28 w-24 object-contain"
                             />
                             <span className="mt-1 text-center text-[9px] text-stone-500">
-                              Sell-in / Sell-out {mainCheck.ordered}/{mainCheck.sold} · {mainCheck.ordered ? ((mainCheck.sold / mainCheck.ordered) * 100).toFixed(1) : "0.0"}%
+                              Продано: {mainCheck.sold} шт. · Заказано: {mainCheck.ordered} шт.
                             </span>
                           </span>
                         ) : (

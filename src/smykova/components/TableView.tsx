@@ -138,15 +138,15 @@ export const TableView: React.FC<TableViewProps> = ({ products, onSelect }) => {
                         />
                       </div>
                       <span
-                        className={`font-semibold text-xs min-w-[42px] ${
+                        className={`font-semibold text-xs ${
                           isHigh ? "text-emerald-800" : isLow ? "text-amber-800" : "text-stone-800"
                         }`}
                       >
-                        {p.sellOutPct.toFixed(1)}%
+                        {p.unitsSold} / {p.unitsOrdered} шт.
                       </span>
                     </div>
-                    <div className="mt-0.5 text-[10px] font-mono text-stone-400 text-right">
-                      ({p.unitsSold}/{p.unitsOrdered}) × 100
+                    <div className="mt-0.5 text-[10px] text-stone-400 text-right">
+                      Продано / заказано
                     </div>
                   </td>
 
