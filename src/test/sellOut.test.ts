@@ -42,6 +42,26 @@ describe("sell-out loop check", () => {
       { name: "Minuccio A", code: "0759" },
     ]);
   });
+  it("extracts uppercase and accented model names from styling text", () => {
+    expect(extractModelMentions("OPAGLIO 0927, Étoile 0101, MOSSA G 0759")).toEqual([
+      { name: "OPAGLIO", code: "0927" },
+      { name: "Étoile", code: "0101" },
+      { name: "MOSSA G", code: "0759" },
+    ]);
+  });
+  it("matches model names with suffixes and color codes without mixing other styles", () => {
+    const catalog = [
+      p("OPAGLIO P", "0927 (NERO)", { 40: 10 }, { 40: 9 }),
+      p("OPAGLIO P", "2210", { 42: 4 }, { 42: 1 }),
+      p("OPAL", "0927", { 40: 2 }, { 40: 2 }),
+    ];
+    expect(sellOutFor("OPAGLIO 0927", catalog, "0927")).toMatchObject({
+      found: true,
+      ordered: 10,
+      sold: 9,
+    });
+    expect(sellOutFor("OPAGLIO", catalog).ordered).toBe(14);
+  });
 });
 
 import { reconcileOrderedSold } from "../smykova/utils/excelParser";

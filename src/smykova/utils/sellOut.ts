@@ -65,7 +65,13 @@ export function matchModelProducts<T extends ProductLike>(
   let hits = products.filter(
     (p) => normModel(p.styleClean || "") === name || normModel(p.styleName) === name,
   );
-  if (!hits.length) hits = products.filter((p) => normModel(p.styleName).startsWith(name + " "));
+  if (!hits.length) {
+    hits = products.filter(
+      (p) =>
+        normModel(p.styleName).startsWith(name + " ") ||
+        normModel(p.styleClean || "").startsWith(name + " "),
+    );
+  }
   if (colorCode) hits = hits.filter((p) => codeMatches(p, colorCode));
   return hits;
 }
@@ -113,7 +119,7 @@ export function sellOutFor(modelRef: string, products: ProductLike[], colorCode?
 /** Extract model mentions like "Mossa G 0759", "Stelle 0919" from styling text. */
 export function extractModelMentions(text: string): { name: string; code: string }[] {
   const clean = text.replace(/\(https?:\/\/[^)]*?\.(?:jpe?g|png|webp|gif)\)/gi, " ");
-  const re = /\b([A-Z][a-zà-ù]+(?: [A-Z](?![A-Za-z]))?)\s+(\d{4})\b/g;
+  const re = /\b([A-ZÀ-Þ][A-Za-zÀ-ÿ]*(?: [A-ZÀ-Þ](?![A-Za-zÀ-ÿ]))?)\s+(\d{4})\b/g;
   const out: { name: string; code: string }[] = [];
   const seen = new Set<string>();
   const skip = new Set(["Vetrina", "Look", "Bambola", "Variant", "Total"]);

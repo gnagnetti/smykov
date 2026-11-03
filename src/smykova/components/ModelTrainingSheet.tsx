@@ -139,19 +139,20 @@ export const ModelTrainingSheet: React.FC<ModelTrainingSheetProps> = ({
     () => sellOutFor(trainingData.modelName, products),
     [trainingData.modelName, products],
   );
-  const stylingLooks = useMemo(
-    () =>
-      ((trainingData as any).stylingRaw || [])
-        .filter((t: string) => t && !/Данные отсутствуют/.test(t))
-        .map((t: string) => ({
-          parts: splitStyling(t),
-          mentions: extractModelMentions(t).map((m) => ({
-            ...m,
-            check: sellOutFor(m.name, products, m.code),
-          })),
+  const stylingLooks = useMemo(() => {
+    const source = (trainingData as any).stylingRaw?.length
+      ? (trainingData as any).stylingRaw
+      : (trainingData.stylingLooks?.ru || []).map((look) => look.itemsListText);
+    return source
+      .filter((text: string) => text && !/Данные отсутствуют/.test(text))
+      .map((text: string) => ({
+        parts: splitStyling(text),
+        mentions: extractModelMentions(text).map((mention) => ({
+          ...mention,
+          check: sellOutFor(mention.name, products, mention.code),
         })),
-    [trainingData, products],
-  );
+      }));
+  }, [trainingData, products]);
 
   const htmlOutput = useMemo(() => {
     return generateTrainingHtmlOutput(trainingData, lang, products, orders);
@@ -475,7 +476,7 @@ export const ModelTrainingSheet: React.FC<ModelTrainingSheetProps> = ({
 
           {/* СТАЙЛИНГ И СОЧЕТАНИЯ — URL images + sell-out of each cited model */}
           {stylingLooks.length > 0 && (
-            <Section title="STYLING">
+            <Section title="СТАЙЛИНГ И СОЧЕТАНИЯ">
               <div className="space-y-6">
                 {stylingLooks.map((look, i) => (
                   <div
@@ -495,9 +496,6 @@ export const ModelTrainingSheet: React.FC<ModelTrainingSheetProps> = ({
                               }}
                               className="h-28 w-24 object-contain"
                             />
-                            <span className="mt-1 text-center text-[9px] text-stone-500">
-                              Продано: {mainCheck.sold} шт. · Заказано: {mainCheck.ordered} шт.
-                            </span>
                           </span>
                         ) : (
                           <span key={j}>{part.value}</span>
