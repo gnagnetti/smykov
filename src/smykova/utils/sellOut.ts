@@ -141,11 +141,15 @@ export function splitStyling(
 ): ({ type: "text"; value: string } | { type: "img"; value: string })[] {
   const re = /\((https?:\/\/[^)]*?\.(?:jpe?g|png|webp|gif))\)/gi;
   const parts: any[] = [];
+  const seenImages = new Set<string>();
   let last = 0;
   let m: RegExpExecArray | null;
   while ((m = re.exec(text))) {
     if (m.index > last) parts.push({ type: "text", value: text.slice(last, m.index) });
-    parts.push({ type: "img", value: encodeURI(m[1]) });
+    if (!seenImages.has(m[1])) {
+      parts.push({ type: "img", value: encodeURI(m[1]) });
+      seenImages.add(m[1]);
+    }
     last = m.index + m[0].length;
   }
   if (last < text.length) parts.push({ type: "text", value: text.slice(last) });
