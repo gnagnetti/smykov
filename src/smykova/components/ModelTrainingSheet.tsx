@@ -299,10 +299,10 @@ export const ModelTrainingSheet: React.FC<ModelTrainingSheetProps> = ({
           <button
             onClick={handlePrint}
             className="flex items-center gap-1.5 rounded-lg border border-stone-300 bg-white px-3 py-1.5 text-xs font-medium text-stone-700 hover:bg-stone-50 transition shadow-2xs"
-            title="Stampa o esporta scheda in PDF"
+            title="Esporta la scheda del modello in PDF"
           >
             <Printer className="h-3.5 w-3.5 text-stone-500" />
-            <span>Stampa PDF</span>
+            <span>Scarica Scheda PDF</span>
           </button>
 
           {/* Code View Toggle */}

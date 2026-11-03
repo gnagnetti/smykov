@@ -1,5 +1,6 @@
 // @ts-nocheck -- imported code, written for a looser TypeScript config
 import collectionAsset from "../static/collection.csv.asset.json";
+import * as XLSX from "xlsx";
 import { parseCsvString } from "../utils/excelParser";
 import type { ModelTrainingData } from "./trainingData";
 
@@ -111,42 +112,59 @@ function parseObjections(raw: string, modelName: string = "") {
 
 export function loadCollectionCsv(): Promise<CollectionRow[]> {
   if (!cache) {
-    cache = fetch(collectionAsset.url)
-      .then((r) => r.text())
-      .then(async (text) => {
-        const rows = parseCsvString(text.replace(/^\uFEFF/, ""), ";");
-        const stylingText = await fetch("/assets/226FWCollectionMultilingua.csv").then((r) => r.text());
-        const stylingRows = parseCsvString(stylingText.replace(/^\uFEFF/, ""), "\t");
-        const stylingByModel = new Map(
-          stylingRows.slice(1).filter((r) => r && r[1]).map((r) => [norm(String(r[1])), String(r[5] || "")]),
-        );
+    cache = fetch("/assets/226FWCollectionMultilinguaXLS.xlsx")
+      .then((response) => response.arrayBuffer())
+      .then((buffer) => {
+        const workbook = XLSX.read(buffer, { type: "array" });
+        const rows = XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]], {
+          header: 1,
+          defval: "",
+        }) as string[][];
+        const headers = rows[0].map((header) => norm(String(header)));
+        const column = (...names: string[]) => headers.findIndex((header) => names.some((name) => header === norm(name)));
+        const idCol = column("ID");
+        const nameCol = column("Nome Modello");
+        const descriptionCol = column("Descrizione");
+        const colorsCol = column("Colori");
+        const stylingCol = column("Styling / Abbinamenti Eng", "Styling / Abbinamenti");
+        const salesCol = column("Consigli di Vendita");
+        const objectionsCol = column("Gestione Obiezioni");
         return rows
           .slice(1)
-          .filter((r) => r && r[1])
-          .map((r) => ({
-            id: String(r[0] || "").trim(),
-            name: String(r[1] || "").trim(),
-            description: String(r[2] || "").trim(),
-            colors: parseColors(String(r[3] || "")),
-            styling: String(stylingByModel.get(norm(String(r[1]))) || r[5] || "")
+          .filter((row) => row && row[nameCol])
+          .map((row) => ({
+            id: String(row[idCol] || "").trim(),
+            name: String(row[nameCol] || "").trim(),
+            description: String(row[descriptionCol] || "").trim(),
+            colors: parseColors(String(row[colorsCol] || "")),
+            styling: String(row[stylingCol] || "")
               .split(/\s*\|\s*/)
-              .map((s) => s.trim())
+              .map((item) => item.trim())
               .filter(Boolean),
-            salesTips: String(r[6] || "")
+            salesTips: String(row[salesCol] || "")
               .split("|")
-              .map((s) =>
-                s
-                  .trim()
-                  .replace(/^[-–•]\s*/, "")
-                  .replace(/^\d+[.)]\s*/, ""),
-              )
+              .map((item) => item.trim().replace(/^[-–•]\s*/, "").replace(/^\d+[.)]\s*/, ""))
               .filter(Boolean),
-            objections: parseObjections(String(r[7] || ""), String(r[1] || "").trim()),
+            objections: parseObjections(String(row[objectionsCol] || ""), String(row[nameCol] || "").trim()),
           }));
       })
-      .catch((e) => {
-        cache = null;
-        throw e;
+      .catch(async (error) => {
+        try {
+          const response = await fetch(collectionAsset.url);
+          const rows = parseCsvString((await response.text()).replace(/^\uFEFF/, ""), ";");
+          return rows.slice(1).filter((row) => row && row[1]).map((row) => ({
+            id: String(row[0] || "").trim(),
+            name: String(row[1] || "").trim(),
+            description: String(row[2] || "").trim(),
+            colors: parseColors(String(row[3] || "")),
+            styling: String(row[5] || "").split(/\s*\|\s*/).map((item) => item.trim()).filter(Boolean),
+            salesTips: String(row[6] || "").split("|").map((item) => item.trim()).filter(Boolean),
+            objections: parseObjections(String(row[7] || ""), String(row[1] || "").trim()),
+          }));
+        } catch {
+          cache = null;
+          throw error;
+        }
       });
   }
   return cache;

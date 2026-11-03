@@ -34,6 +34,13 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
     product.wholesaleEur > 0 ? (product.suggRetailEur / product.wholesaleEur).toFixed(2) : "2.60";
   const isHighVelocity = product.sellOutPct >= 70;
   const isSoldOut = product.stockRemaining === 0;
+  const sellOutIssues = [
+    product.unitsOrdered < 0 || product.unitsSold < 0 ? "Valori negativi rilevati." : "",
+    product.unitsSold > product.unitsOrdered ? "Sell-out superiore al sell-in." : "",
+    product.unitsOrdered - product.unitsSold !== product.stockRemaining
+      ? "La rimanenza non coincide con sell-in meno sell-out."
+      : "",
+  ].filter(Boolean);
 
   const fallbackImg =
     "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1000&q=80";
@@ -46,7 +53,10 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
       >
         {/* Close Button */}
         <button
+          type="button"
           onClick={onClose}
+          aria-label="Chiudi finestra"
+          title="Chiudi finestra"
           className="absolute right-5 top-5 z-20 rounded-full bg-stone-100 p-2.5 text-stone-500 hover:bg-stone-200 hover:text-stone-900 transition shadow-xs"
         >
           <X className="h-5 w-5" />
@@ -149,6 +159,10 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                   capi
                 </span>
               </div>
+            </div>
+
+            <div className={`mt-2 rounded-lg px-3 py-2 text-xs ${sellOutIssues.length ? "border border-rose-200 bg-rose-50 text-rose-800" : "border border-emerald-200 bg-emerald-50 text-emerald-800"}`}>
+              {sellOutIssues.length ? `Verifica dati: ${sellOutIssues.join(" ")}` : "Verifica dati: sell-in, sell-out e rimanenza coerenti."}
             </div>
 
             {modelDescription && (

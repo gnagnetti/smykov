@@ -104,10 +104,11 @@ export default function App() {
         if (filters.search) {
           const q = filters.search.toLowerCase();
           const matchName = (p.styleName || "").toLowerCase().includes(q);
+          const matchId = (p.styleNumber || "").toLowerCase().includes(q);
           const matchColor = (p.colorCode || p.color || "").toLowerCase().includes(q);
           const matchSil = (p.silhouette || "").toLowerCase().includes(q);
           const matchFab = (p.fabrication || "").toLowerCase().includes(q);
-          if (!matchName && !matchColor && !matchSil && !matchFab) return false;
+          if (!matchName && !matchId && !matchColor && !matchSil && !matchFab) return false;
         }
 
         // Silhouette filter
